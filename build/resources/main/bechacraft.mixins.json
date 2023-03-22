@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "bapt.bechacraft.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "ModEntityDataSaverMixin"
+  ],
+  "client": [
+    "BechacraftMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
