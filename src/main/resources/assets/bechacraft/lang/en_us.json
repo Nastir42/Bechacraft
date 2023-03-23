@@ -19,6 +19,9 @@
   "vocation.bechacraft.fighter": "Fighter",
   "vocation.bechacraft.magician": "Magician",
 
+  "msg.bechacraft.no_vocation_yet": "You don't have a vocation yet, press V or type '/vocation menu' to open the vocation menu",
+  "msg.bechacraft.vocation_start": "Your vocation is now : ",
+
   "key.category.bechacraft": "Béchacraft",
   "key.bechacraft.open_vocation_menu": "Open vocation menu"
 }

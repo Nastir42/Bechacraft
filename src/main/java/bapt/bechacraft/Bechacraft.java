@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import bapt.bechacraft.block.ModBlocks;
 import bapt.bechacraft.block.entity.ModBlockEntities;
+import bapt.bechacraft.command.ModCommands;
 import bapt.bechacraft.item.ModItemGroup;
 import bapt.bechacraft.item.ModItems;
 import bapt.bechacraft.recipe.ModRecipes;
@@ -26,6 +27,7 @@ public class Bechacraft implements ModInitializer {
 		ModBlockEntities.registerBlockEntities();
 		ModScreenHandlers.registerScreenHandlers();
 		ModRecipes.registerRecipes();
+		ModCommands.registerCommands();
 
 		LOGGER.info(MOD_NAME + " has initialized succesfully !");
 	}

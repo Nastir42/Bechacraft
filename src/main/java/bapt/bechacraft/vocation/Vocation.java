@@ -1,4 +1,4 @@
-package bapt.bechacraft.util.vocation;
+package bapt.bechacraft.vocation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 import bapt.bechacraft.Bechacraft;
 import bapt.bechacraft.util.Util;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -23,6 +24,12 @@ public class Vocation {
         this.iconId = iconId;
         this.parent = parent;
     }
+
+    public void onStart(PlayerEntity player) {
+        player.sendMessage(Text.literal("msg.bechacraft.vocation_start").append(getDisplayName()));
+    }
+
+    public void onStop(PlayerEntity player) { }
 
     public Vocation getParent() {
         return parent;

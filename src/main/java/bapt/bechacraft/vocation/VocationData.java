@@ -1,4 +1,4 @@
-package bapt.bechacraft.util.vocation;
+package bapt.bechacraft.vocation;
 
 import bapt.bechacraft.util.IEntityDataSaver;
 import net.minecraft.nbt.NbtCompound;
@@ -16,7 +16,7 @@ public class VocationData {
         return vocation;
     }
 
-    public static Vocation getVocation(IEntityDataSaver player, Vocation vocation) {
+    public static Vocation getVocation(IEntityDataSaver player) {
         NbtCompound nbt = player.getPersistentData();
         return Vocation.fromName(nbt.getString(KEY));
     }

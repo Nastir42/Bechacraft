@@ -1,4 +1,4 @@
-package bapt.bechacraft.util.vocation;
+package bapt.bechacraft.vocation;
 
 import java.util.Collection;
 import java.util.HashMap;
