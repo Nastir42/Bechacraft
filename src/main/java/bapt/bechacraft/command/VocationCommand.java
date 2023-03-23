@@ -4,9 +4,7 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import bapt.bechacraft.util.IEntityDataSaver;
 import bapt.bechacraft.vocation.Vocation;
-import bapt.bechacraft.vocation.VocationData;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -24,7 +22,7 @@ public class VocationCommand implements Command<ServerCommandSource> {
         
         ServerPlayerEntity player = (ServerPlayerEntity) entity;
 
-        Vocation vocation = VocationData.getVocation((IEntityDataSaver) player);
+        Vocation vocation = Vocation.get(player);
 
         if(vocation == null) {
             player.sendMessage(Text.translatable("msg.bechacraft.no_vocation_yet"));
