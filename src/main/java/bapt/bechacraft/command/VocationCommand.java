@@ -5,14 +5,12 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import bapt.bechacraft.vocation.Vocation;
-import bapt.bechacraft.vocation.Vocations;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.command.CommandManager.RegistrationEnvironment;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
 
 public class VocationCommand {
 
@@ -28,12 +26,8 @@ public class VocationCommand {
             return 0;
         
         ServerPlayerEntity player = (ServerPlayerEntity) entity;
-        Vocation vocation = Vocation.get(player);
 
-        if(vocation == Vocations.NONE)
-            player.sendMessage(Text.translatable("msg.bechacraft.no_vocation_yet"));
-        else
-            player.sendMessage(vocation.getDisplayName());
+        Vocation.sendInfo(player, Vocation.get(player));
 
         return 1;
     }

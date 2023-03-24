@@ -5,14 +5,12 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import bapt.bechacraft.vocation.Vocation;
-import bapt.bechacraft.vocation.Vocations;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.command.CommandManager.RegistrationEnvironment;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
 
 public class VocationResetCommand {
 
@@ -29,13 +27,7 @@ public class VocationResetCommand {
         
         ServerPlayerEntity player = (ServerPlayerEntity) entity;
 
-        if(Vocation.get(player) == Vocations.NONE) {
-            player.sendMessage(Text.translatable("msg.bechacraft.reset_vocation_fail"));
-            return 0;
-        }
-
-        Vocation.set(player, Vocations.NONE);
-        player.sendMessage(Text.translatable("msg.bechacraft.reset_vocation_success"));
+        Vocation.reset(player);
 
         return 1;
     }

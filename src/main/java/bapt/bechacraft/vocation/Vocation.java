@@ -97,6 +97,23 @@ public class Vocation {
         return VocationData.getVocation((IEntityDataSaver) player);
     }
 
+    public static void reset(PlayerEntity player) {
+        if(Vocation.get(player) == Vocations.NONE) {
+            player.sendMessage(Text.translatable("msg.bechacraft.reset_vocation_fail"));
+        } else {
+            Vocation.set(player, Vocations.NONE);
+            player.sendMessage(Text.translatable("msg.bechacraft.reset_vocation_success"));
+        }
+    }
+
+    public static void sendInfo(PlayerEntity player, Vocation vocation) {
+
+        if(vocation == Vocations.NONE)
+            player.sendMessage(Text.translatable("msg.bechacraft.no_vocation_yet"));
+        else
+            player.sendMessage(Text.translatable("msg.becharcaft.vocation_info_name").append(" : " + vocation.getDisplayName()));
+    }
+
     private class VocationData {
 
         private static String KEY = "vocation";
@@ -118,6 +135,5 @@ public class Vocation {
             NbtCompound nbt = player.getPersistentData();
             return setVocation(player, Vocation.fromName(nbt.getString(KEY)));
         }
-    
     }
 }
