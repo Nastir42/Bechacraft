@@ -14,27 +14,32 @@ import net.minecraft.server.command.CommandManager.RegistrationEnvironment;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 
-public class VocationCommand {
+public class VocationPickCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, RegistrationEnvironment environment) {
-        dispatcher.register(CommandManager.literal("vocation").executes(context -> execute(context)));
-        dispatcher.register(CommandManager.literal("vocation").then(CommandManager.literal("info").executes(context -> execute(context))));
+        for(Vocation vocation : Vocations.all()) {
+            dispatcher.register(CommandManager.literal("vocation").then(CommandManager.literal("pick").then(CommandManager.literal(vocation.getName()).executes(context -> execute(context, vocation)))));
+        }
     }
 
-    private static int execute(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
+    private static int execute(CommandContext<ServerCommandSource> context, Vocation newVocation) throws CommandSyntaxException {
         
         Entity entity = context.getSource().getEntity();
+
         if(entity == null || !(entity instanceof ServerPlayerEntity))
             return 0;
         
         ServerPlayerEntity player = (ServerPlayerEntity) entity;
+
         Vocation vocation = Vocation.get(player);
 
-        if(vocation == Vocations.NONE)
-            player.sendMessage(Text.translatable("msg.bechacraft.no_vocation_yet"));
-        else
-            player.sendMessage(vocation.getDisplayName());
+        if(newVocation.getParent() == vocation && newVocation.unlocked(player)) {
+            Vocation.set(player, newVocation);
+            return 1;
+        } else
+            player.sendMessage(Text.translatable("msg.bechacraft.change_vocation_fail"));
 
-        return 1;
+        return 0;
     }
+    
 }

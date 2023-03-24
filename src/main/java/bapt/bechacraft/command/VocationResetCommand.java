@@ -14,27 +14,30 @@ import net.minecraft.server.command.CommandManager.RegistrationEnvironment;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 
-public class VocationCommand {
+public class VocationResetCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, RegistrationEnvironment environment) {
-        dispatcher.register(CommandManager.literal("vocation").executes(context -> execute(context)));
-        dispatcher.register(CommandManager.literal("vocation").then(CommandManager.literal("info").executes(context -> execute(context))));
+        dispatcher.register(CommandManager.literal("vocation").then(CommandManager.literal("reset").executes(context -> execute(context))));
     }
 
     private static int execute(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
         
         Entity entity = context.getSource().getEntity();
+
         if(entity == null || !(entity instanceof ServerPlayerEntity))
             return 0;
         
         ServerPlayerEntity player = (ServerPlayerEntity) entity;
-        Vocation vocation = Vocation.get(player);
 
-        if(vocation == Vocations.NONE)
-            player.sendMessage(Text.translatable("msg.bechacraft.no_vocation_yet"));
-        else
-            player.sendMessage(vocation.getDisplayName());
+        if(Vocation.get(player) == Vocations.NONE) {
+            player.sendMessage(Text.translatable("msg.bechacraft.reset_vocation_fail"));
+            return 0;
+        }
+
+        Vocation.set(player, Vocations.NONE);
+        player.sendMessage(Text.translatable("msg.bechacraft.reset_vocation_success"));
 
         return 1;
     }
+    
 }

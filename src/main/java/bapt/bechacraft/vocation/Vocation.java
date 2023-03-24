@@ -15,23 +15,28 @@ import net.minecraft.util.Identifier;
 
 public class Vocation {
 
+    //private static final String ICON_PATH_PREFIX = "textures/vocation/";
+
     private String name;
-    private Identifier iconId;
+    private final Identifier id;
+    //private Identifier iconId;
     private Vocation parent;
-    @Nullable
     private String translationKey;
 
-    public Vocation(String name, Identifier iconId, Vocation parent) {
+    public Vocation(String name, Vocation parent, Identifier id) {
         this.name = name;
-        this.iconId = iconId;
+        //this.iconId = new Identifier(Bechacraft.MOD_ID, ICON_PATH_PREFIX + name + ".png");
         this.parent = parent;
+        this.id = id;
     }
 
-    public void onStart(PlayerEntity player) {
-        player.sendMessage(Text.literal("msg.bechacraft.vocation_start").append(getDisplayName()));
+    public void onStart(PlayerEntity player, Vocation oldVocation) {
+        if(this != Vocations.NONE) {
+            player.sendMessage(Text.translatable("msg.bechacraft.vocation_start").append(getDisplayName()));
+        }
     }
 
-    public void onStop(PlayerEntity player) { }
+    public void onStop(PlayerEntity player, Vocation newVocation) { }
 
     public boolean unlocked(PlayerEntity player) {
         return true;
@@ -47,6 +52,10 @@ public class Vocation {
 
     public Text getDisplayName() {
         return Text.translatable(this.getTranslationKey());
+    }
+
+    public Identifier getId() {
+        return id;
     }
 
     protected String getOrCreateTranslationKey() {
@@ -78,10 +87,10 @@ public class Vocation {
     public static void set(PlayerEntity player, Vocation vocation) {
 
         Vocation lastVocation = VocationData.getVocation((IEntityDataSaver) player);
-        lastVocation.onStop(player);
+        lastVocation.onStop(player, vocation);
 
         VocationData.setVocation((IEntityDataSaver) player, vocation);
-        vocation.onStart(player);
+        vocation.onStart(player, lastVocation);
     }
 
     public static Vocation get(PlayerEntity player) {
@@ -93,17 +102,21 @@ public class Vocation {
         private static String KEY = "vocation";
     
         public static Vocation setVocation(IEntityDataSaver player, Vocation vocation) {
+
+            if(vocation == null) {
+                Bechacraft.LOGGER.info("Vocation not set, resetting");
+                return setVocation(player, Vocations.NONE);
+            }
+
             NbtCompound nbt = player.getPersistentData();
-    
-            if(vocation != null)
-                nbt.putString(KEY, vocation.getName());
+            nbt.putString(KEY, vocation.getName());
             
             return vocation;
         }
     
         public static Vocation getVocation(IEntityDataSaver player) {
             NbtCompound nbt = player.getPersistentData();
-            return Vocation.fromName(nbt.getString(KEY));
+            return setVocation(player, Vocation.fromName(nbt.getString(KEY)));
         }
     
     }

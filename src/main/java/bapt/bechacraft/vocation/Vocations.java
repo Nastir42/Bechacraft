@@ -3,25 +3,22 @@ package bapt.bechacraft.vocation;
 import java.util.Collection;
 import java.util.HashMap;
 
-import org.jetbrains.annotations.Nullable;
-
 import com.google.common.collect.Maps;
 
 import bapt.bechacraft.Bechacraft;
 import net.minecraft.util.Identifier;
 
-@Nullable
 public class Vocations {
 
-    private static final String pathPrefix = "textures/vocation/";
     private static HashMap<Identifier, Vocation> entries = Maps.newHashMap();
     
-    public static final Vocation FARMER = createAndRegisterVocation("farmer", null);
-    public static final Vocation MINER = createAndRegisterVocation("miner", null);
-    public static final Vocation TRAVELER = createAndRegisterVocation("traveler", null);
-    public static final Vocation BUILDER = createAndRegisterVocation("builder", null);
-    public static final Vocation FIGHTER = createAndRegisterVocation("fighter", null);
-    public static final Vocation MAGICIAN = createAndRegisterVocation("magician", null);
+    public static final Vocation NONE = createAndRegisterVocation("none", null);
+    public static final Vocation FARMER = createAndRegisterVocation("farmer", NONE);
+    public static final Vocation MINER = createAndRegisterVocation("miner", NONE);
+    public static final Vocation TRAVELER = createAndRegisterVocation("traveler", NONE);
+    public static final Vocation BUILDER = createAndRegisterVocation("builder", NONE);
+    public static final Vocation FIGHTER = createAndRegisterVocation("fighter", NONE);
+    public static final Vocation MAGICIAN = createAndRegisterVocation("magician", NONE);
     public static final Vocation BREEDER = createAndRegisterVocation("breeder", FARMER);
     public static final Vocation FISHER = createAndRegisterVocation("fisher", FARMER);
     public static final Vocation LUMBERJACK = createAndRegisterVocation("lumberjack", FARMER);
@@ -55,16 +52,10 @@ public class Vocations {
     public static final Vocation TRADER = createAndRegisterVocation("trader", MERCHANT);
     
     public static Vocation createAndRegisterVocation(String name, Vocation parent) {
-        return registerVocation(name, new Vocation(
-            name,
-            new Identifier(Bechacraft.MOD_ID, pathPrefix + name + ".png"),
-            parent
-        ));
-    }
-    
-    public static Vocation registerVocation(String name, Vocation vocation) {
-        return entries.put(new Identifier(Bechacraft.MOD_ID, name),
-            vocation);
+        Identifier id = new Identifier(Bechacraft.MOD_ID, name);
+        Vocation vocation = new Vocation(name, parent, id);
+        entries.put(id, vocation);
+        return vocation;
     }
 
     public static Collection<Vocation> all() {
@@ -72,6 +63,10 @@ public class Vocations {
     }
 
     public static Vocation fromName(String name) {
-        return entries.get(new Identifier(Bechacraft.MOD_ID, name));
+        Identifier id = new Identifier(Bechacraft.MOD_ID, name);
+        if(entries.containsKey(id))
+            return entries.get(id);
+        else
+            return NONE;
     }
 }

@@ -21,6 +21,9 @@
 
   "msg.bechacraft.no_vocation_yet": "You don't have a vocation yet, press V or type '/vocation menu' to open the vocation menu",
   "msg.bechacraft.vocation_start": "Your vocation is now : ",
+  "msg.bechacraft.change_vocation_fail": "You cannot pick this vocation",
+  "msg.bechacraft.reset_vocation_fail": "You already don't have a vocation",
+  "msg.bechacraft.reset_vocation_success": "Your vocation was reset succesfully",
 
   "key.category.bechacraft": "Béchacraft",
   "key.bechacraft.open_vocation_menu": "Open vocation menu"
