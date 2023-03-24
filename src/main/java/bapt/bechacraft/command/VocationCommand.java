@@ -12,7 +12,6 @@ import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.command.CommandManager.RegistrationEnvironment;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
 
 public class VocationCommand {
 
@@ -28,12 +27,8 @@ public class VocationCommand {
             return 0;
         
         ServerPlayerEntity player = (ServerPlayerEntity) entity;
-        Vocation vocation = Vocation.get(player);
 
-        if(vocation == Vocations.NONE)
-            player.sendMessage(Text.translatable("msg.bechacraft.no_vocation_yet"));
-        else
-            player.sendMessage(vocation.getDisplayName());
+        Vocation.sendInfo(player, Vocation.get(player));
 
         return 1;
     }
